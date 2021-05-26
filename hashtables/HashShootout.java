@@ -236,8 +236,12 @@ public class HashShootout {
 					HashTable<String, String> preinsertedKeys = s.buildStringString(keyList1, valueList);
 					incrementTime(accumulatedTimes, getTestId("GetHitsSS" + String.format("%03d", keyLength), s),
 							timeCall(() -> HashShootout.runGetTestStringString(preinsertedKeys, keyList1)), keys);
-					incrementTime(accumulatedTimes, getTestId("GetMissSS" + String.format("%03d", keyLength), s),
-							timeCall(() -> HashShootout.runGetTestStringString(preinsertedKeys, keyList2)), keys);
+					if(keys < Math.pow(26, keyLength)) {
+						// Only perform miss-test if there is a possibility of misses, i.e. not all keys will
+						// be in the table.
+						incrementTime(accumulatedTimes, getTestId("GetMissSS" + String.format("%03d", keyLength), s),
+								timeCall(() -> HashShootout.runGetTestStringString(preinsertedKeys, keyList2)), keys);
+					}
 					if (iAmReallyReallyPatient) {
 						incrementTime(accumulatedTimes, getTestId("PutBI", s),
 								timeCall(() -> s.runPutTestBadInt(testSize)), keys);
