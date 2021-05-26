@@ -2,7 +2,7 @@ package hashtables;
 
 import java.math.BigInteger;
 
-public class OpenAddressingHashPrime<K,V> implements HashTable<K,V> {
+public class OpenAddressingHashPrime<K, V> implements HashTable<K, V> {
 	private static class Entry<K, V> {
 		public K key;
 		public V value;
@@ -12,7 +12,8 @@ public class OpenAddressingHashPrime<K,V> implements HashTable<K,V> {
 			this.value = value;
 		}
 	}
-	private Entry<K,V>[] entries;
+
+	private Entry<K, V>[] entries;
 	private static final int INITIAL_CAPACITY = 5; // Must be prime.
 	private static final double MAX_LOAD_FACTOR = 0.75;
 	private static final double GROWTH_FACTOR = 1.6; // Must be > 1.
@@ -41,9 +42,9 @@ public class OpenAddressingHashPrime<K,V> implements HashTable<K,V> {
 	}
 
 	private void growTable() {
-		OpenAddressingHashPrime<K,V> newTable = new OpenAddressingHashPrime<>(this.entries.length);
-		for(Entry<K,V> e : this.entries) {
-			if(e != null) {
+		OpenAddressingHashPrime<K, V> newTable = new OpenAddressingHashPrime<>(this.entries.length);
+		for (Entry<K, V> e : this.entries) {
+			if (e != null) {
 				newTable.put(e.key, e.value);
 			}
 		}
@@ -53,9 +54,9 @@ public class OpenAddressingHashPrime<K,V> implements HashTable<K,V> {
 	@Override
 	public void put(K key, V value) {
 		// Must mask the most significant bit to avoid negative table indices.
-		int hash = (key.hashCode() & 0x7FFFFFFF) % this.entries.length;
-		while(this.entries[hash] != null) {
-			if(this.entries[hash].key.equals(key)) {
+		int hash = (HashUtils.mix(key.hashCode()) & 0x7FFFFFFF) % this.entries.length;
+		while (this.entries[hash] != null) {
+			if (this.entries[hash].key.equals(key)) {
 				this.entries[hash].value = value;
 				return;
 			}
@@ -63,7 +64,7 @@ public class OpenAddressingHashPrime<K,V> implements HashTable<K,V> {
 		}
 		this.entries[hash] = new Entry<>(key, value);
 		this.size++;
-		if(loadFactorTooHigh()) {
+		if (loadFactorTooHigh()) {
 			growTable();
 		}
 	}
@@ -71,9 +72,9 @@ public class OpenAddressingHashPrime<K,V> implements HashTable<K,V> {
 	@Override
 	public V get(K key) {
 		// Must mask the most significant bit to avoid negative table indices.
-		int hash = (key.hashCode() & 0x7FFFFFFF) % this.entries.length;
-		while(this.entries[hash] != null) {
-			if(this.entries[hash].key.equals(key)) {
+		int hash = (HashUtils.mix(key.hashCode()) & 0x7FFFFFFF) % this.entries.length;
+		while (this.entries[hash] != null) {
+			if (this.entries[hash].key.equals(key)) {
 				return this.entries[hash].value;
 			}
 			hash = (hash + 1) % this.entries.length;

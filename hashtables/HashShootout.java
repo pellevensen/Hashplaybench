@@ -24,7 +24,8 @@ public class HashShootout {
 
 		public BadHashObject(long v) {
 			long x = v;
-			// Moremur: http://mostlymangling.blogspot.com/2019/12/stronger-better-morer-moremur-better.html
+			// Moremur:
+			// http://mostlymangling.blogspot.com/2019/12/stronger-better-morer-moremur-better.html
 			x ^= x >>> 27;
 			x *= 0x3C79AC492BA7B653L;
 			x ^= x >>> 33;
@@ -188,8 +189,8 @@ public class HashShootout {
 
 		if (args.length >= 1) {
 			testRuns = Integer.parseInt(args[0]);
-			if(args.length == 2) {
-			    keys = Integer.parseInt(args[1]);
+			if (args.length == 2) {
+				keys = Integer.parseInt(args[1]);
 			}
 		}
 		System.err.printf("Will do %d testruns with %d keys each.\n", testRuns, keys);

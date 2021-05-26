@@ -38,11 +38,11 @@ abstract class HashTableTest {
 
 	@Test
 	/*
-	 * Inserts i unique keys into the set and after all insertions,
-	 * checks that the size matches.
+	 * Inserts i unique keys into the set and after all insertions, checks that the
+	 * size matches.
 	 *
-	 * Terminates as failure if it takes too long (which is an indication
-	 * of quadratic performance).
+	 * Terminates as failure if it takes too long (which is an indication of
+	 * quadratic performance).
 	 */
 	void testPut1() {
 		assertTimeoutPreemptively(ofSeconds(1), () -> {
@@ -61,11 +61,11 @@ abstract class HashTableTest {
 
 	@Test
 	/*
-	 * Inserts i keys, some guaranteed to be duplicates, and checks that the
-	 * size matches the number of unique keys.
+	 * Inserts i keys, some guaranteed to be duplicates, and checks that the size
+	 * matches the number of unique keys.
 	 *
-	 * Terminates as failure if it takes too long (which is an indication
-	 * of quadratic performance).
+	 * Terminates as failure if it takes too long (which is an indication of
+	 * quadratic performance).
 	 */
 	void testPut2() {
 		assertTimeoutPreemptively(ofSeconds(1), () -> {
@@ -88,11 +88,11 @@ abstract class HashTableTest {
 
 	@Test
 	/*
-	 * Inserts i unique keys into the set and after all insertions,
-	 * checks that the values match the keys.
+	 * Inserts i unique keys into the set and after all insertions, checks that the
+	 * values match the keys.
 	 *
-	 * Terminates as failure if it takes too long (which is an indication
-	 * of quadratic performance).
+	 * Terminates as failure if it takes too long (which is an indication of
+	 * quadratic performance).
 	 */
 	void testGet1() {
 		assertTimeoutPreemptively(ofSeconds(1), () -> {
@@ -105,7 +105,7 @@ abstract class HashTableTest {
 				for (int j = 0; j < i; j++) {
 					h.put(Integer.valueOf(keys[j]), Integer.valueOf(values[j]));
 				}
-				for(int j = 0; j < i; j++) {
+				for (int j = 0; j < i; j++) {
 					assertEquals(Integer.valueOf(values[j]), Integer.valueOf(h.get(Integer.valueOf(keys[j]))));
 				}
 			}
@@ -115,11 +115,11 @@ abstract class HashTableTest {
 
 	@Test
 	/*
-	 * Inserts i keys, some guaranteed to be duplicates, and checks that the
-	 * final keys match the expected values.
+	 * Inserts i keys, some guaranteed to be duplicates, and checks that the final
+	 * keys match the expected values.
 	 *
-	 * Terminates as failure if it takes too long (which is an indication
-	 * of quadratic performance).
+	 * Terminates as failure if it takes too long (which is an indication of
+	 * quadratic performance).
 	 */
 	void testGet2() {
 		assertTimeoutPreemptively(ofSeconds(1), () -> {
@@ -136,8 +136,8 @@ abstract class HashTableTest {
 				// already seen. This way we can verify that it is the last added
 				// key's value that is in the map.
 				BitSet seenKeys = new BitSet();
-				for(int j = i - 1; j > 0; j--) {
-					if(!seenKeys.get(keys[j])) {
+				for (int j = i - 1; j > 0; j--) {
+					if (!seenKeys.get(keys[j])) {
 						seenKeys.set(keys[j]);
 						assertEquals(Integer.valueOf(values[j]), h.get(Integer.valueOf(keys[j])));
 					}

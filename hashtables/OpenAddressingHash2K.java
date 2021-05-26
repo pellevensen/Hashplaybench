@@ -1,6 +1,6 @@
 package hashtables;
 
-public class OpenAddressingHash2K<K,V> implements HashTable<K,V> {
+public class OpenAddressingHash2K<K, V> implements HashTable<K, V> {
 	private static class Entry<K, V> {
 		public K key;
 		public V value;
@@ -10,7 +10,8 @@ public class OpenAddressingHash2K<K,V> implements HashTable<K,V> {
 			this.value = value;
 		}
 	}
-	private Entry<K,V>[] entries;
+
+	private Entry<K, V>[] entries;
 	private static final int INITIAL_CAPACITY = 4; // Must be a power of two.
 	private static final double MAX_LOAD_FACTOR = 0.75;
 	private int size;
@@ -35,9 +36,9 @@ public class OpenAddressingHash2K<K,V> implements HashTable<K,V> {
 	}
 
 	private void growTable() {
-		OpenAddressingHash2K<K,V> newTable = new OpenAddressingHash2K<>(this.entries.length);
-		for(Entry<K,V> e : this.entries) {
-			if(e != null) {
+		OpenAddressingHash2K<K, V> newTable = new OpenAddressingHash2K<>(this.entries.length);
+		for (Entry<K, V> e : this.entries) {
+			if (e != null) {
 				newTable.put(e.key, e.value);
 			}
 		}
@@ -46,9 +47,9 @@ public class OpenAddressingHash2K<K,V> implements HashTable<K,V> {
 
 	@Override
 	public void put(K key, V value) {
-		int hash = key.hashCode() & this.entries.length - 1;
-		while(this.entries[hash] != null) {
-			if(this.entries[hash].key.equals(key)) {
+		int hash = HashUtils.mix(key.hashCode()) & this.entries.length - 1;
+		while (this.entries[hash] != null) {
+			if (this.entries[hash].key.equals(key)) {
 				this.entries[hash].value = value;
 				return;
 			}
@@ -56,16 +57,16 @@ public class OpenAddressingHash2K<K,V> implements HashTable<K,V> {
 		}
 		this.entries[hash] = new Entry<>(key, value);
 		this.size++;
-		if(loadFactorTooHigh()) {
+		if (loadFactorTooHigh()) {
 			growTable();
 		}
 	}
 
 	@Override
 	public V get(K key) {
-		int hash = key.hashCode() & this.entries.length - 1;
-		while(this.entries[hash] != null) {
-			if(this.entries[hash].key.equals(key)) {
+		int hash = HashUtils.mix(key.hashCode()) & this.entries.length - 1;
+		while (this.entries[hash] != null) {
+			if (this.entries[hash].key.equals(key)) {
 				return this.entries[hash].value;
 			}
 			hash = hash + 1 & this.entries.length - 1;
